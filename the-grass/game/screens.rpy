@@ -503,8 +503,8 @@ screen game_menu(title, scroll=None, yinitial=0.0):
 
     text title:
         style "grass_label"
-        xpos 40
-        ypos 36
+        xpos 84
+        ypos 34
 
     frame:
         background Solid("#101617f5")
@@ -590,25 +590,73 @@ screen load():
 screen preferences():
     tag menu
     use game_menu("OPTIONS"):
+
         vbox:
-            spacing 22
+            spacing 18
+            xsize 600
+
             text "Text speed" style "grass_label"
-            bar value Preference("text speed") xsize 600
-            text "Auto-forward" style "grass_label"
-            bar value Preference("auto-forward time") xsize 600
+            bar value Preference("text speed") xsize 580 ysize 22:
+                left_bar Solid("#c9b071")
+                right_bar Solid("#252c2d")
+                thumb None
+
+            text "Auto-forward delay" style "grass_label"
+            bar value Preference("auto-forward time") xsize 580 ysize 22:
+                left_bar Solid("#c9b071")
+                right_bar Solid("#252c2d")
+                thumb None
+
             text "Music volume" style "grass_label"
-            bar value Preference("music volume") xsize 600
+            bar value Preference("music volume") xsize 580 ysize 22:
+                left_bar Solid("#c9b071")
+                right_bar Solid("#252c2d")
+                thumb None
+
             text "Sound volume" style "grass_label"
-            bar value Preference("sound volume") xsize 600
+            bar value Preference("sound volume") xsize 580 ysize 22:
+                left_bar Solid("#c9b071")
+                right_bar Solid("#252c2d")
+                thumb None
+
+            null height 10
 
             text "Display" style "grass_label"
             hbox:
-                spacing 10
-                textbutton "Window" action Preference("display", "window") style "grass_button"
-                textbutton "Fullscreen" action Preference("display", "fullscreen") style "grass_button"
-            text "Accessibility" style "grass_label"
-            textbutton "Self-voicing" action Preference("self voicing", "toggle") style "grass_button"
+                spacing 12
+                textbutton "Window":
+                    style "grass_button"
+                    action Preference("display", "window")
+                    text_size 22
+                textbutton "Fullscreen":
+                    style "grass_button"
+                    action Preference("display", "fullscreen")
+                    text_size 22
 
+            null height 10
+
+            text "Accessibility" style "grass_label"
+            textbutton "Self-voicing":
+                style "grass_button"
+                action Preference("self voicing", "toggle")
+                text_size 22
+
+            null height 10
+
+            text "Progress" style "grass_label"
+            text "Places visited: [len(visited)] / 10" size 21 color "#d9d0bb"
+            text "Notebook entries: [len(notebook)]" size 21 color "#d9d0bb"
+
+
+style pref_bar is bar:
+    left_gutter 0
+    right_gutter 0
+    thumb None
+    thumb_shadow None
+
+style pref_bar:
+    xsize 580
+    ysize 24
 
 ################################################################################
 ## Small screens Ren'Py expects
