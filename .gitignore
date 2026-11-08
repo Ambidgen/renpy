@@ -1,12 +1,6 @@
-build
-cache
-install
-pygame-example/main.py
-python-emscripten
-python-emscripten.fossil
-*.pyo
-*~
-toolchain
-/renpy
-/pygame_sdl2
-/emsdk/
+# The Grass build outputs
+the-grass-web/dist/
+the-grass/game/cache/
+the-grass/game/saves/
+*.rpyc
+__pycache__/
