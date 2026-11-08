@@ -67,7 +67,7 @@ label check_story:
         return
 
     ## Or the storm season simply runs its course.
-    if storm_day >= 4:
+    if storm_day >= 3:
         $ ending_pending = True
         return
 

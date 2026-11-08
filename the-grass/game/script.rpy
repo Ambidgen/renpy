@@ -169,17 +169,55 @@ label start:
 
 label ending_wrap:
 
+    $ renpy.hide_screen("location_hud")
+
+    scene black with slowfade
+    $ renpy.show("stage", at_list=[bg_drift])
+    with dissolve
+
+    n "The fifth storm comes down the pass before you are ready for it. They come in fives in Hella, and the fifth is the one that changes the season."
+
+    if caravan_state == "arrived":
+        n "The caravan is drawn up in the inn yard with its canvas tied down and its ponies in the stable, which means that for the first time in a fortnight, Hella has more in it than it started with."
+    else:
+        n "The caravan is still out in the Grass, or it is not, and there is no way from Hella to tell which."
+
+    if has("vashk_warning"):
+        n "Out past the milepost, the thing that walked in a straight line has stopped walking. Vashk was right about the direction and wrong about the speed, which is the most anyone at a border can be."
+
+    if has("council_ready") and trust_hellers >= 3 and trust_grass >= 3:
+        scene expression "images/bg/bg_moot.jpg" with slowfade
+
+        n "The moot hall is full. The tables are along the walls and the chair on the dais is still draped in the old colours, and your mother is standing beside it rather than in it."
+
+        n "Vashk stands at the door with her hands where everyone can see them. Corin stands behind her, because he is a gateward and that is what a gateward does."
+
+        if has("tamsin_companion"):
+            n "Tamsin stands at the chart with her finger on a hollow she has read at three different times of day, and she does not once look at the coast for permission."
+        else:
+            n "Tamsin stands at the chart anyway, because nobody has told her not to."
+
+        n "The tally-board goes up on its hooks. The Grass column is still empty. It will not be empty by the end of the session, and everyone in the hall knows it."
+
+        n "Hella does not decide to be brave. It decides to write the number down, which is the same thing in a border village, done slowly."
+
+    elif trust_grass > trust_hellers:
+        n "You spend the fifth storm out past the milepost with the people who read the dust, and Hella spends it in its own rooms, and the two of you will have to argue about that later."
+
+    else:
+        n "You spend the fifth storm in the inn, with Marta, and the fire, and twenty people who are all talking at once. It is not a decision. It is what a village is before it makes one."
+
     scene expression "images/bg/bg_gate.jpg" with slowfade
 
     n "The storm season turns. Whether the caravan sails, and what Hella decides it is, is the rest of the game — but the slice ends here."
 
     n "You have been to [len(visited)] of the ten places, and written [len(notebook)] things in the notebook."
 
-    if trust_hellers > trust_grass:
-        n "Hella will remember that you listened to the village first."
-    elif trust_grass > trust_hellers:
-        n "Hella will remember that you went out into the weeds before you were asked to."
-    else:
-        n "Hella will remember that you did not decide quickly, which in a border village is its own decision."
+    if len(visited) < 5:
+        n "Hella is bigger than that. It will keep."
+
+    n "The Grass is still grey, and still moving, and still the only road there is."
+
+    $ renpy.notify("End of the slice. Thank you for playing.")
 
     return
