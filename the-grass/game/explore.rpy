@@ -17,7 +17,7 @@ default _looked = set()
 
 label explore:
 
-    while True:
+    while not ending_pending:
 
         ## Keep the scene in sync with wherever she is.
         if not renpy.showing("stage"):
@@ -54,6 +54,10 @@ label explore:
                 $ _dest = _map[1]
                 call travel from _explore_travel_map
 
+    ## check_story sets ending_pending when the slice is ready to close.
+    if ending_pending:
+        jump ending_wrap
+
     return
 
 
@@ -62,7 +66,7 @@ label explore:
 label travel:
 
     $ change_location(_dest)
-    $ bell += 1
+    $ advance(1)
     $ renpy.transition(fade)
     $ renpy.notify(loc(_dest).name)
 
@@ -105,7 +109,7 @@ label look_around:
         $ _looked.add(location)
         $ note("Looked closely at %s." % loc(location).name)
 
-    $ bell += 1
+    $ advance(1)
     call check_story from _look_story
 
     return
@@ -134,13 +138,8 @@ init python:
 
 label wait_here:
 
-    $ bell += 1
-    if bell > 12:
-        $ bell = 1
-        $ storm_day += 1
-        $ renpy.notify("The night passes. Day %d of the storm." % storm_day)
-    else:
-        $ renpy.notify(clock_text())
+    $ advance(1)
+    $ renpy.notify(clock_text())
 
     $ renpy.say(None, wait_text(location))
     call check_story from _wait_story
@@ -171,7 +170,7 @@ label talk_to:
 
         $ _tid = _t[1]
         $ talked.add((_who, _tid))
-        $ bell += 1
+        $ advance(1)
 
         call expression ("topic_" + _who + "_" + _tid) from _talk_topic
         call check_story from _talk_story

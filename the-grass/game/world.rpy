@@ -231,6 +231,15 @@ init python:
         b = max(0, min(12, b))
         return names[b] if b else "last bell"
 
+    def advance(n=1):
+        """Spend n bells. Twelve bells make a storm day."""
+        import renpy.store as st
+        for _ in range(n):
+            st.__dict__["bell"] = st.__dict__["bell"] + 1
+            if st.__dict__["bell"] > 12:
+                st.__dict__["bell"] = 1
+                st.__dict__["storm_day"] = st.__dict__["storm_day"] + 1
+
     def note(text, flag=None):
         """Alexandria writes something down. This is the tutorial's memory."""
         if text not in notebook:
@@ -262,3 +271,81 @@ default caravan_state = "overdue"
 default trust_hellers = 0
 default trust_school = 0
 default trust_grass = 0
+
+
+## ------------------------------------------------------------------ the world
+##
+## The lore screen. A sandbox with an invented world needs a way to look up
+## what a word means, so the notebook screen has a second tab.
+
+init 1 python:
+    LORE = [
+        ("Faeblue",
+         "The world. Humans and elves are its most numerous speaking peoples, and the fertile coastal belt along its north-eastern edge is where most of them live."),
+        ("The Great Dead Grass",
+         "A vast expanse of thick grey weeds on Faeblue's north-eastern border. It cannot be farmed and cannot be tamed. It is not a desert and it is not a sea; it is the place where the map stops being useful."),
+        ("The Ravager tribes",
+         "Orkish and beastmen bands that roam the Grass. The coastal realms call them Ravagers because raiding is the only thing the coast has ever had to call them. They call a hard season a hard season."),
+        ("Hella",
+         "A border village where the long thin pass comes down out of the mountains. Defended by a timber palisade, governed by a moot, and kept alive by a preparatory school for undergraduate witches."),
+        ("The pass",
+         "The one road between Hella and the coast, running between mountain chains. The waystones along it wear blue ribbons older than anyone now living in Hella."),
+        ("The stormy season",
+         "Six weeks a year when the Grass is only crossable in the first fortnight and the last week. Caravans time their crossings by it, and Hella times its whole economy by the caravans."),
+        ("The caravan",
+         "A fortnightly wagon train from the Western coasts. In the storm season they wait out the weather and sail back West. Some say half of them get lost in the Grass. Some say half is optimistic."),
+        ("The school",
+         "Hella Academy, preparatory: sixty students, four mistresses, an old charter. The reason families from the coast pay to send their daughters up the pass, and the reason Hella has a market at all."),
+        ("The moot",
+         "Hella's governing assembly. Long tables, a chaired dais, a tally-board of the season's levies, and a column for the Grass that nobody has filled in since the last mayor died."),
+        ("The watch",
+         "Four people, one brazier, one bell, and one spyglass. Its job is to know first, not to fight."),
+    ]
+screen lore():
+    modal True
+    zorder 70
+
+    add Solid("#070a0bfa")
+
+    text "FAEBLUE" style "grass_label" xpos 40 ypos 50
+
+    text "The world, briefly":
+        font gui.name_text_font
+        size 34
+        color "#f2ead2"
+        xpos 40
+        ypos 78
+
+    frame:
+        background Solid("#101617f5")
+        xpos 30
+        ypos 160
+        xsize 660
+        ysize 940
+        padding (24, 20)
+
+        vbox:
+            xsize 600
+            spacing 16
+            for title, body in LORE:
+                vbox:
+                    xsize 600
+                    spacing 2
+                    text title:
+                        font gui.name_text_font
+                        size 22
+                        color grass_edge
+                    text body:
+                        size 20
+                        color "#cfc7b3"
+                        xsize 590
+
+    textbutton "Close":
+        style "grass_button"
+        xsize 150
+        ysize 56
+        xpos 540
+        ypos 1166
+        text_size 22
+        text_xalign 0.5
+        action Hide("lore")

@@ -80,14 +80,15 @@ screen location_hud():
 
     ## status bar -------------------------------------------------------
     frame:
-        background Solid("#0608099c")
+        background Solid("#060809e6")
         xfill True
         ysize 74
-        padding (20, 0)
+        xpos 0
+        padding (76, 0, 20, 0)
 
         hbox:
             yalign 0.5
-            spacing 12
+            spacing 10
 
             text loc(location).name:
                 font gui.name_text_font
@@ -328,17 +329,23 @@ screen notebook():
         ysize 940
         padding (24, 20)
 
-        viewport:
-            scrollbars "vertical"
-            mousewheel True
-            draggable True
+        vbox:
+            xsize 600
+            spacing 14
+            if not notebook:
+                text "Nothing yet. Go and be told things." style "grass_dim"
+            for entry in notebook:
+                text "— " + entry size 22 color "#d9d0bb" xsize 590
 
-            vbox:
-                spacing 14
-                if not notebook:
-                    text "Nothing yet. Go and be told things." style "grass_dim"
-                for entry in notebook:
-                    text "— " + entry size 23 color "#d9d0bb"
+    textbutton "World":
+        style "grass_button"
+        xsize 160
+        ysize 56
+        xpos 40
+        ypos 1166
+        text_size 22
+        text_xalign 0.5
+        action Show("lore")
 
     textbutton "Close":
         style "grass_button"
@@ -346,6 +353,8 @@ screen notebook():
         ysize 56
         xpos 540
         ypos 1166
+        text_size 22
+        text_xalign 0.5
         action Hide("notebook")
 
 
