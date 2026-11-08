@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en-us">
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>example-renpy</title>
+  <title>The Grass</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="manifest.json" crossorigin="use-credentials" />
   <link rel="icon" href="icons/icon-72x72.png" sizes="72x72" type="image/png" />
@@ -29,7 +29,7 @@
 
   <style>
     html {
-      background: #444;
+      background: #0a0d0e;
       font-family: sans-serif;
     }
 
@@ -220,11 +220,8 @@
       window.gameZipURL = 'game.zip';
 
       // Register the service worker.
-      if (navigator.serviceWorker) {
-          if (!navigator.serviceWorker.controller) {
-              navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'all' });
-          }
-      }
+      // No service worker: this is served as a plain static build and a
+      // stale cached engine is worse than a re-download.
   </script>
   <script src="renpy-pre.js"></script>
   <script async type="text/javascript" src="renpy.js"></script>
